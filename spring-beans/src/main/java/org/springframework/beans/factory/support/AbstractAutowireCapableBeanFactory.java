@@ -551,6 +551,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			 *   1. 通过工厂方法创建 bean 实例
 			 *   2. 通过构造方法自动注入（autowire by constructor）的方式创建 bean 实例
 			 *   3. 通过无参构造方法方法创建 bean 实例
+			 *   其实到最后除了无参构造直接创建外,第二种也是通过工厂方法创建Bean实例,只是工厂由spring自己创建
 			 *
 			 * 若 bean 的配置信息中配置了 lookup-method 和 replace-method，则会使用 CGLIB
 			 * 增强 bean 实例。关于lookup-method和replace-method后面再说。
@@ -1120,6 +1121,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 */
 	protected BeanWrapper createBeanInstance(String beanName, RootBeanDefinition mbd, @Nullable Object[] args) {
 		// Make sure bean class is actually resolved at this point.
+		/**
+		 * 解析指定bean定义的bean类，将bean类名称解析为类引用（如果需要），并将解析的类存储在bean定义中以供进一步使用
+		 */
 		Class<?> beanClass = resolveBeanClass(mbd, beanName);
 
 		/**
@@ -1136,12 +1140,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		/**
-		 *
+		 * 通过mbd传入工厂方法
 		 * 如果工厂方法不为空，则通过工厂方法构建 bean 对象
 		 * 这种构建 bean 的方式可以自己写个demo去试试
 		 * 源码就不做深入分析了，有兴趣的同学可以和我私下讨论
 		 */
 		if (mbd.getFactoryMethodName() != null)  {
+			//直接返回通过构造函数创建的对象
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}
 
@@ -1150,7 +1155,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		 * 从spring的原始注释可以知道这个是一个Shortcut，什么意思呢？
 		 * 当多次构建同一个 bean 时，可以使用这个Shortcut，
 		 * 也就是说不在需要次推断应该使用哪种方式构造bean
-		 *  比如在多次构建同一个prototype类型的 bean 时，就可以走此处的hortcut
+		 * 比如在多次构建同一个prototype类型的 bean 时，就可以走此处的hortcut
 		 * 这里的 resolved 和 mbd.constructorArgumentsResolved 将会在 bean 第一次实例
 		 * 化的过程中被设置，后面来证明
 		 */
@@ -1165,6 +1170,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				}
 			}
 		}
+		//当构造方法没有参数时
 		if (resolved) {
 			if (autowireNecessary) {
 				// 通过构造方法自动装配的方式构造 bean 对象
@@ -1175,6 +1181,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				return instantiateBean(beanName, mbd);
 			}
 		}
+		/**
+		 * autowireConstructor作用:
+		 * 当有构造方法有参数时,其实还是通过工厂初始化
+		 * 只是工厂为spring自己创建,然后传入,最后再回到刚刚通过工厂方法初始化对象的方法
+		 */
 
 		// Candidate constructors for autowiring?
 		//由后置处理器决定返回哪些构造方法
