@@ -149,6 +149,7 @@ public class AnnotationConfigUtils {
 		if (beanFactory != null) {
 			if (!(beanFactory.getDependencyComparator() instanceof AnnotationAwareOrderComparator)) {
 				//AnnotationAwareOrderComparator主要能解析@Order注解和@Priority
+				//如果没有AnnotationAwareOrderComparator主要能解析,则set一个AnnotationAwareOrderComparator
 				beanFactory.setDependencyComparator(AnnotationAwareOrderComparator.INSTANCE);
 			}
 			if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {

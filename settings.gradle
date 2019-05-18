@@ -31,5 +31,5 @@ rootProject.children.each {project ->
 }
 include 'lubanIoc'
 include 'spring-cglib1'
-include 'luban-cglib'
+/*include 'luban-cglib'*/
 

@@ -250,7 +250,7 @@ public class AnnotatedBeanDefinitionReader {
 		 */
 		abd.setScope(scopeMetadata.getScopeName());
 		/**
-		 * 生成类的名字通过beanNameGenerator记得布置过一个作业
+		 * 生成类的名字通过beanNameGenerator
 		 */
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 		/**
