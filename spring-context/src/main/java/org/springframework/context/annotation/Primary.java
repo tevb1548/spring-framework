@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 /**
  * Indicates that a bean should be given preference when multiple candidates
  * are qualified to autowire a single-valued dependency. If exactly one
- * 'primary' bean exists among the candidates, it will be the  value.
+ * 'primary' bean exists among the candidates, it will be the autowired value.
  *
  * <p>This annotation is semantically equivalent to the {@code <bean>} element's
  * {@code primary} attribute in Spring XML.

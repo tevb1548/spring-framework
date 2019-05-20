@@ -95,6 +95,7 @@ public class AnnotatedBeanDefinitionReader {
 //		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 //		Assert.notNull(environment, "Environment must not be null");
 		this.registry = registry;
+		//获取并验证信息
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 	}
@@ -210,6 +211,7 @@ public class AnnotatedBeanDefinitionReader {
 	}
 
 	/**
+	 * 解析所有参数类的注解,并转换成相应的数据结构
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
 	 * @param annotatedClass the class of the bean
@@ -310,6 +312,7 @@ public class AnnotatedBeanDefinitionReader {
 		 * 實例化了一个DefaultListableBeanFactory
 		 * *registerBeanDefinition里面就是把definitionHolder这个数据结构包含的信息注册到
 		 * DefaultListableBeanFactory这个工厂
+		 * 这里实例化了AppConfig
 		 */
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
 	}

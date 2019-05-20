@@ -103,9 +103,9 @@ class ConstructorResolver {
 	 * dependency resolution.
 	 * @param beanName the name of the bean
 	 * @param mbd the merged bean definition for the bean
-	 * @param chosenCtors 选择的候选构造函数（或@code空如果没有
-	 * @param explicitArgs 通过getbean方法以编程方式传入的参数值，
-	 * 或者@code null如果没有（->使用bean定义中的构造函数参数值）
+	 * @param chosenCtors chosen candidate constructors (or {@code null} if none)
+	 * @param explicitArgs argument values passed in programmatically via the getBean method,
+	 * or {@code null} if none (-> use constructor argument values from bean definition)
 	 * @return a BeanWrapper for the new instance
 	 */
 	public BeanWrapper autowireConstructor(String beanName, RootBeanDefinition mbd,
@@ -115,10 +115,9 @@ class ConstructorResolver {
 		//因为BeanWrapper是个接口
 		BeanWrapperImpl bw = new BeanWrapperImpl();
 		this.beanFactory.initBeanWrapper(bw);
-		//已经解析的构造方法
+
 		Constructor<?> constructorToUse = null;
 		ArgumentsHolder argsHolderToUse = null;
-		//参数数组
 		Object[] argsToUse = null;
 		//确定参数值列表
 		//argsToUse可以有两种办法设置
@@ -143,7 +142,6 @@ class ConstructorResolver {
 				}
 			}
 			if (argsToResolve != null) {
-				//解析存储在给定bean定义中的准备参数
 				argsToUse = resolvePreparedArguments(beanName, mbd, bw, constructorToUse, argsToResolve);
 			}
 		}
@@ -203,7 +201,7 @@ class ConstructorResolver {
 			//根据构造方法的访问权限级别和参数数量进行排序
 			//怎么排序的呢？
 			/**
-			 *  优先访问权限，继而参数个数
+			 *  有限反问权限，继而参数个数
 			 *  这个自己可以写个测试去看看到底是不是和我说的一样
 			 * 1. public Luban(Object o1, Object o2, Object o3)
 			 * 2. public Luban(Object o1, Object o2)
@@ -231,7 +229,7 @@ class ConstructorResolver {
 				 * argsToUse.length > paramTypes.length这个代码就相当复杂了
 				 * 首先假设 argsToUse = [1,"luban"，obj]
 				 * 那么回去匹配到上面的构造方法的1和5
-				 * 由于构造方法1有更高的访问权限，所以选择1，尽管5看起来更加匹配
+				 * 由于构造方法1有更高的访问权限，所有选择1，尽管5看起来更加匹配
 				 * 但是我们看2,直接参数个数就不对所以直接忽略
 				 *
 				 *

@@ -144,12 +144,12 @@ public class AnnotationConfigUtils {
 	 */
 	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
-
+		//获取工厂
 		DefaultListableBeanFactory beanFactory = unwrapDefaultListableBeanFactory(registry);
+		//设置beanFactory里面的属性
 		if (beanFactory != null) {
 			if (!(beanFactory.getDependencyComparator() instanceof AnnotationAwareOrderComparator)) {
 				//AnnotationAwareOrderComparator主要能解析@Order注解和@Priority
-				//如果没有AnnotationAwareOrderComparator主要能解析,则set一个AnnotationAwareOrderComparator
 				beanFactory.setDependencyComparator(AnnotationAwareOrderComparator.INSTANCE);
 			}
 			if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {
@@ -160,6 +160,10 @@ public class AnnotationConfigUtils {
 
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
 		//BeanDefinitio的注册，这里很重要，需要理解注册每个bean的类型
+		//CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME==org.springframework.context.annotation.internalConfigurationAnnotationProcessor==ConfigurationClassPostProcessor
+		/**
+		 * 这里在beanDefs中初始化了7个对象
+		 */
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			//需要注意的是ConfigurationClassPostProcessor的类型是BeanDefinitionRegistryPostProcessor
 			//而 BeanDefinitionRegistryPostProcessor 最终实现BeanFactoryPostProcessor这个接口

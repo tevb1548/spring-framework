@@ -67,7 +67,9 @@ import org.springframework.util.Assert;
  * @see org.springframework.context.support.GenericXmlApplicationContext
  */
 public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
-
+	/**
+	 * 在父类GenericApplicationContext中初始化时直接new了一个工厂DefaultListableBeanFactory
+	 */
 	/**
 	 * 这个类顾名思义是一个reader，一个读取器
 	 * 读取什么呢？还是顾名思义AnnotatedBeanDefinition意思是读取一个被加了注解的bean

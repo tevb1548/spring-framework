@@ -303,6 +303,7 @@ final class PostProcessorRegistrationDelegate {
 
 		//因为只有一条数据
 		for (BeanDefinitionRegistryPostProcessor postProcessor : postProcessors) {
+			//执行了FactoryPostProcssors里面的方法
 			postProcessor.postProcessBeanDefinitionRegistry(registry);
 		}
 	}
