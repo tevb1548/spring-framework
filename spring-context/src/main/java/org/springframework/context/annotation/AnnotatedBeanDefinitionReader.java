@@ -96,7 +96,11 @@ public class AnnotatedBeanDefinitionReader {
 //		Assert.notNull(environment, "Environment must not be null");
 		this.registry = registry;
 		//获取并验证信息
+		/**
+		 * 里面有registry benfactory environment(里面存放环境信息,如计算机的用户等) classLoader等
+		 */
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
+		//注册注解配置处理器
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 	}
 
@@ -321,6 +325,7 @@ public class AnnotatedBeanDefinitionReader {
 	/**
 	 * Get the Environment from the given registry if possible, otherwise return a new
 	 * StandardEnvironment.
+	 * 创建环境
 	 */
 	private static Environment getOrCreateEnvironment(BeanDefinitionRegistry registry) {
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");

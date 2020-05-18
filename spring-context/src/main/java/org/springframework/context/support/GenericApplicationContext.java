@@ -319,7 +319,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
-
+		//第一遍时只有一个对象root被注册了
 		this.beanFactory.registerBeanDefinition(beanName, beanDefinition);
 	}
 
