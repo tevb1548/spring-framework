@@ -312,9 +312,8 @@ public class AnnotatedBeanDefinitionReader {
 		/**
 		 * 把上述的这个数据结构注册给registry
 		 * registy就是AnnotatonConfigApplicationContext
-		 * AnnotatonConfigApplicationContext在初始化的時候通過調用父類的構造方法
-		 * 實例化了一个DefaultListableBeanFactory
-		 * *registerBeanDefinition里面就是把definitionHolder这个数据结构包含的信息注册到
+		 * AnnotatonConfigApplicationContext在初始化的时候通过调用父类的构造方法实例化了一个DefaultListableBeanFactory
+		 * registerBeanDefinition里面就是把definitionHolder这个数据结构包含的信息注册到
 		 * DefaultListableBeanFactory这个工厂
 		 * 这里实例化了AppConfig
 		 */

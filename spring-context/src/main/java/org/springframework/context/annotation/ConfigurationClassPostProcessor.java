@@ -310,6 +310,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		});
 
 		// Detect any custom bean name generation strategy supplied through the enclosing application context
+		//检测通过封闭的应用程序上下文提供的任何自定义bean名称生成策略
 		SingletonBeanRegistry sbr = null;
 		//如果BeanDefinitionRegistry是SingletonBeanRegistry子类的话,
 		// 由于我们当前传入的是DefaultListableBeanFactory,是SingletonBeanRegistry 的子类
@@ -340,7 +341,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		//实例化2个set,candidates用于将之前加入的configCandidates进行去重
 		//因为可能有多个配置类重复了
 		//alreadyParsed用于判断是否处理过
+		//等待解析的
 		Set<BeanDefinitionHolder> candidates = new LinkedHashSet<>(configCandidates);
+		//已经解析的
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
 		do {
 			parser.parse(candidates);

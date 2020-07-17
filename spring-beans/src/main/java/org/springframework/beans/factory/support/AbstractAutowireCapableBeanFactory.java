@@ -119,6 +119,10 @@ import javax.annotation.PostConstruct;
  * @see DefaultListableBeanFactory
  * @see BeanDefinitionRegistry
  */
+
+/**
+ * 具有自动装配能力的工厂
+ */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
 		implements AutowireCapableBeanFactory {
 

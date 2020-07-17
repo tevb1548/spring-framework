@@ -133,6 +133,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 
 	/** Map from serialized id to factory instance */
+	/**
+	 * 从序列化的id映射到工厂实例,DefaultListableBeanFactory就是自己
+	 */
 	private static final Map<String, Reference<DefaultListableBeanFactory>> serializableFactories =
 			new ConcurrentHashMap<>(8);
 
@@ -162,20 +165,20 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** 单例和非单例bean名称的映射，由依赖项类型键控 */
 	private final Map<Class<?>, String[]> allBeanNamesByType = new ConcurrentHashMap<>(64);
 
-	/** Map of singleton-only bean names, keyed by dependency type */
+	/** 单例bean名称的映射，按依赖类型键入 */
 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
 
-	/** List of bean definition names, in registration order */
+	/** 按注册顺序排列的bean定义名称列表 */
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
-	/** List of names of manually registered singletons, in registration order */
+	/** 手动注册单例的名称列表，按注册顺序 */
 	private volatile Set<String> manualSingletonNames = new LinkedHashSet<>(16);
 
-	/** Cached array of bean definition names in case of frozen configuration */
+	/** 缓存的bean定义名称数组，以防配置被冻结 */
 	@Nullable
 	private volatile String[] frozenBeanDefinitionNames;
 
-	/** Whether bean definition metadata may be cached for all beans */
+	/** 是否可以为所有bean缓存bean定义元数据 */
 	private volatile boolean configurationFrozen = false;
 
 

@@ -210,6 +210,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public void register(Class<?>... annotatedClasses) {
 		Assert.notEmpty(annotatedClasses, "At least one annotated class must be specified");
+		//annotatedClasses = "class com.luban.app.Appconfig"
 		this.reader.register(annotatedClasses);
 	}
 

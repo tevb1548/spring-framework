@@ -155,6 +155,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// on application shutdown in WebLogic 8.1. (Reported by Dustin Woods.)
 		/**
 		 * 急切地加载ContextClosedEvent类以避免奇怪的类加载器问题
+		 * value = "org.springframework.context.event.ContextClosedEvent"
 		 */
 		ContextClosedEvent.class.getName();
 	}
