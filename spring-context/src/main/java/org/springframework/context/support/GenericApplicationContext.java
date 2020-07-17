@@ -105,7 +105,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * Create a new GenericApplicationContext.
 	 * @see #registerBeanDefinition
 	 * @see #refresh
-	 * 直接在刚开始就实例化了一个工厂,并同事准备了各种list,set,map的用于存放数据,
+	 * 直接在刚开始就实例化了一个工厂,并同时准备了各种list,set,map的用于存放数据,
 	 * 比如解决循环依赖的singletonObjects,singletonFactories,earlySingletonObjects等
 	 */
 	public GenericApplicationContext() {

@@ -122,44 +122,48 @@ import javax.annotation.PostConstruct;
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
 		implements AutowireCapableBeanFactory {
 
-	/** Strategy for creating bean instances */
+	/** 用于创建bean实例的策略 */
 	private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
-	/** Resolver strategy for method parameter names */
+	/** 方法参数名的解析器策略 */
 	@Nullable
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
-	/** Whether to automatically try to resolve circular references between beans */
+	/** 是否自动尝试解析bean之间的循环引用 */
 	private boolean allowCircularReferences = true;
 
 	/**
 	 * Whether to resort to injecting a raw bean instance in case of circular reference,
 	 * even if the injected bean eventually got wrapped.
+	 * 在循环引用的情况下，是否要注入一个原始bean实例，即使注入的bean最终被包装。
 	 */
 	private boolean allowRawInjectionDespiteWrapping = false;
 
 	/**
 	 * Dependency types to ignore on dependency check and autowire, as Set of
 	 * Class objects: for example, String. Default is none.
+	 * 在依赖项检查和自动连接时忽略的依赖项类型，如类对象集:例如，String。默认是没有的。
 	 */
 	private final Set<Class<?>> ignoredDependencyTypes = new HashSet<>();
 
 	/**
 	 * Dependency interfaces to ignore on dependency check and autowire, as Set of
 	 * Class objects. By default, only the BeanFactory interface is ignored.
+	 * 依赖接口，以忽略依赖检查和自动装配，作为类对象的集合。默认情况下，只有BeanFactory接口被忽略。
 	 */
 	private final Set<Class<?>> ignoredDependencyInterfaces = new HashSet<>();
 
 	/**
 	 * The name of the currently created bean, for implicit dependency registration
 	 * on getBean etc invocations triggered from a user-specified Supplier callback.
+	 * 当前创建的bean的名称，用于从用户指定的供应商回调中触发的getBean等调用的隐式依赖项注册*。
 	 */
 	private final NamedThreadLocal<String> currentlyCreatedBean = new NamedThreadLocal<>("Currently created bean");
 
-	/** Cache of unfinished FactoryBean instances: FactoryBean name to BeanWrapper */
+	/** 未完成的FactoryBean实例的缓存:从FactoryBean名称到BeanWrapper */
 	private final ConcurrentMap<String, BeanWrapper> factoryBeanInstanceCache = new ConcurrentHashMap<>(16);
 
-	/** Cache of filtered PropertyDescriptors: bean Class to PropertyDescriptor array */
+	/** 过滤后的PropertyDescriptors的缓存:bean类到PropertyDescriptor数组*/
 	private final ConcurrentMap<Class<?>, PropertyDescriptor[]> filteredPropertyDescriptorsCache =
 			new ConcurrentHashMap<>(256);
 
