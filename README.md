@@ -1,5 +1,9 @@
 # <img src="src/docs/asciidoc/images/spring-framework.png" width="80" height="80"> Spring Framework
 
+###注意事项
+- 获取git代码后,可能会gbk乱码,则点击"帮助"->"编辑自定义VM选项"->"-Dfile.encoding=UTF-8"->重启
+- 直接运行实例代码可能报错,则点击"gradle"->"spring-core"->"Task"->"other"->"compileTestJava"编译一下就好了
+
 This is the home of the Spring Framework, the foundation for all
 [Spring projects](https://spring.io/projects). Together the Spring Framework and the family of Spring projects make up what we call "Spring". 
 
