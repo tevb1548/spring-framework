@@ -224,7 +224,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	/**
-	 * Create a new AbstractApplicationContext with no parent.
+	 * Create a new AbstractApplicationContext with no parent.资源模式解析器,创建一个新的没有父类的AbstractApplicationContext
 	 */
 	public AbstractApplicationContext() {
 		this.resourcePatternResolver = getResourcePatternResolver();
@@ -459,6 +459,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
 	protected ResourcePatternResolver getResourcePatternResolver() {
+		//路径匹配资源模式解析器
 		return new PathMatchingResourcePatternResolver(this);
 	}
 
@@ -566,6 +567,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Check for listener beans and register them.
 				registerListeners();
 
+				// 实例化bean对象
 				// Instantiate all remaining (non-lazy-init) singletons.
 				finishBeanFactoryInitialization(beanFactory);
 
@@ -717,6 +719,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @param beanFactory the bean factory used by the application context
 	 */
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+		ConfigurableListableBeanFactory beanFactory1 = beanFactory;
 	}
 
 	/**

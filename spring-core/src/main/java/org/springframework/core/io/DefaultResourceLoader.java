@@ -52,6 +52,9 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 	private final Set<ProtocolResolver> protocolResolvers = new LinkedHashSet<>(4);
 
+	/**
+	 * ConcurrentHashMap是线程安全的map,1.8以后锁住的是红黑树的根节点,所以在读写的同时也能最大效率的控制线程安全
+	 */
 	private final Map<Class<?>, Map<Resource, ?>> resourceCaches = new ConcurrentHashMap<>(4);
 
 

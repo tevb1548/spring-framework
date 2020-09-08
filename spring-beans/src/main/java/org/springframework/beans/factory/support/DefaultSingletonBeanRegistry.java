@@ -153,8 +153,19 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory) {
 		Assert.notNull(singletonFactory, "Singleton factory must not be null");
 		synchronized (this.singletonObjects) {
+			/**
+			 * 如果单例池当中不存在才会add
+			 * 因为这里主要为了解决循环依赖
+			 * 如果单例池中已经存在的话就说明是一个完整的bean了
+			 * 一个完整的bean自然已经染成了属性注入,循环依赖的话已经依赖上了
+			 */
 			if (!this.singletonObjects.containsKey(beanName)) {
+				//把工厂对象put到二级map--singletonFactories
 				this.singletonFactories.put(beanName, singletonFactory);
+				//从三级map中remove掉当前bean
+				//为什么需要remove?抛开细节,这三个map当中其实存的都是同一个对象
+				//spring的做法是三个不能同时都存,加1存了,则2,3就要remove
+				//反之亦然,现在既然put到了2级缓存,1已经判断没有,3则直接remove
 				this.earlySingletonObjects.remove(beanName);
 				this.registeredSingletons.add(beanName);
 			}
@@ -180,14 +191,25 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		//从map中获取bean如果不为空直接返回，不再进行初始化工作
 		//讲道理一个程序员提供的对象这里一般都是为空的
 		Object singletonObject = this.singletonObjects.get(beanName);
+		/**
+		 * singletonObject:判断单例池中是否存在
+		 * isSingletonCurrentlyInCreation(beanName);判断是否正在创建
+		 */
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			synchronized (this.singletonObjects) {
+				//从三级缓存中获取单例对象
+				/**
+				 * 一般是拿不到的,因为放入二级缓存中后,三级缓存就会删除掉
+				 */
 				singletonObject = this.earlySingletonObjects.get(beanName);
 				if (singletonObject == null && allowEarlyReference) {
+					//能产生一个半成品bean
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 					if (singletonFactory != null) {
 						singletonObject = singletonFactory.getObject();
+						//把半成品对象放入三级缓存
 						this.earlySingletonObjects.put(beanName, singletonObject);
+						//清除掉二级缓存
 						this.singletonFactories.remove(beanName);
 					}
 				}
@@ -220,6 +242,13 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				/**
 				 * 将beanName添加到singletonsCurrentlyInCreation这样一个set集合中
 				 * 表示beanName对应的bean正在创建中
+				 * 当spring觉得可以着手撞见bean的时候首先便是调用beforeSingletonCreation(beanName);
+				 * 判断当前正在实例化的bean是否存在正在创建的集合中,因为spring不管创建原型bean还是单例bean,当它需要正式创建bean
+				 * 的时候它会记录一下这个bean正在创建;故而它当他正式创建之前他要去看看这个bean有没有正在被创建
+				 * 作用:原因很多,但主要为了循环依赖
+				 */
+				/**
+
 				 */
 				beforeSingletonCreation(beanName);
 				boolean newSingleton = false;
@@ -346,6 +375,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @see #isSingletonCurrentlyInCreation
 	 */
 	protected void beforeSingletonCreation(String beanName) {
+		/**
+		 * this.inCreationCheckExclusions.contains(beanName)这里是判断当前需要和创建的bean是否再Exclusions集合,被
+		 * 排除的bean,程序员可以提供一些bean不被spring初始化
+		 * this.singletonsCurrentlyInCreation.add(beanName),如果当前bean不在配出的集合中,则这个bean添加到singletonsCurrentlyInCreation
+		 */
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.add(beanName)) {
 			throw new BeanCurrentlyInCreationException(beanName);
 		}

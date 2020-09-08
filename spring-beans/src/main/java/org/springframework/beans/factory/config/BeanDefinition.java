@@ -42,7 +42,7 @@ import org.springframework.lang.Nullable;
 public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
 	/**
-	 *  标准单例作用域的作用域标识符：“singleton”。
+	 *  标准单例作用域的作用域标识符：“singleton”。判断是否是单例
 	 * Scope identifier for the standard singleton scope: "singleton".
 	 * <p>Note that extended bean factories might support further scopes.
 	 * @see #setScope
@@ -50,6 +50,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
 
 	/**
+	 * 原型
 	 * Scope identifier for the standard prototype scope: "prototype".
 	 * <p>Note that extended bean factories might support further scopes.
 	 * @see #setScope
@@ -81,7 +82,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * entirely background role and has no relevance to the end-user. This hint is
 	 * used when registering beans that are completely part of the internal workings
 	 * of a {@link org.springframework.beans.factory.parsing.ComponentDefinition}.
-	 * 就是我这Bean是Spring自己的，和你用户没有一毛钱关系
+	 * 就是我这Bean是Spring自己的，和用户没有关系
 	 */
 	int ROLE_INFRASTRUCTURE = 2;
 
@@ -89,11 +90,13 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	// Modifiable attributes
 
 	/**
+	 * 设置这个bean定义的父定义的名称(如果有的话)。
 	 * Set the name of the parent definition of this bean definition, if any.
 	 */
 	void setParentName(@Nullable String parentName);
 
 	/**
+	 * 获取父定义
 	 * Return the name of the parent definition of this bean definition, if any.
 	 */
 	@Nullable
@@ -125,6 +128,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String getBeanClassName();
 
 	/**
+	 * 作用域
 	 * Override the target scope of this bean, specifying a new scope name.
 	 * @see #SCOPE_SINGLETON
 	 * @see #SCOPE_PROTOTYPE
@@ -154,6 +158,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	/**
 	 * Set the names of the beans that this bean depends on being initialized.
 	 * The bean factory will guarantee that these beans get initialized first.
+	 * 设置这个bean所依赖的被初始化的bean的名称。* bean工厂将保证这些bean首先被初始化。
 	 */
 	void setDependsOn(@Nullable String... dependsOn);
 
@@ -164,6 +169,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String[] getDependsOn();
 
 	/**
+	 * 设置是否做为自动装配的候选对象
 	 * Set whether this bean is a candidate for getting autowired into some other bean.
 	 * <p>Note that this flag is designed to only affect type-based autowiring.
 	 * It does not affect explicit references by name, which will get resolved even
@@ -178,6 +184,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	boolean isAutowireCandidate();
 
 	/**
+	 * 设置主要参与的候选对象
 	 * Set whether this bean is a primary autowire candidate.
 	 * <p>If this value is {@code true} for exactly one bean among multiple
 	 * matching candidates, it will serve as a tie-breaker.
@@ -288,6 +295,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String getDescription();
 
 	/**
+	 * 返回这个bean定义所来自的资源的描述(用于在出现错误时显示上下文)。
 	 * Return a description of the resource that this bean definition
 	 * came from (for the purpose of showing context in case of errors).
 	 */
@@ -295,6 +303,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String getResourceDescription();
 
 	/**
+	 * 返回原始BeanDefinition，如果没有，则返回{@code null}。*允许检索修饰后的bean定义(如果有的话)。注意，这个方法返回的是直接的发起者。遍历originator链以查找由用户定义的原始BeanDefinition
 	 * Return the originating BeanDefinition, or {@code null} if none.
 	 * Allows for retrieving the decorated bean definition, if any.
 	 * <p>Note that this method returns the immediate originator. Iterate through the

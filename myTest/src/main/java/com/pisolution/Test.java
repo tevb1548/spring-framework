@@ -1,5 +1,7 @@
 package com.pisolution;
 
+import com.pisolution.config.AppConfig;
+import com.pisolution.service.IndexService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -25,7 +27,7 @@ public class Test {
 		 * 分析具体注解并实例化
 		 */
 		annotationConfigApplicationContext.refresh();
-		TestService testService = annotationConfigApplicationContext.getBean(TestService.class);
-		testService.test();
+		IndexService indexService = annotationConfigApplicationContext.getBean(IndexService.class);
+		indexService.test();
 	}
 }
